@@ -22,6 +22,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.android.billingclient.api.BillingClient;
+import com.android.billingclient.api.BillingClientStateListener;
 import com.android.billingclient.api.Purchase;
 import com.android.billingclient.api.PurchasesUpdatedListener;
 import com.android.billingclient.api.SkuDetails;
@@ -97,6 +98,17 @@ public final class PlayStore extends StoreBase {
         billingClient = BillingClient.newBuilder(context)
                 .setListener(purchasesUpdatedListener)
                 .build();
+
+        startServiceConnection(new Runnable() {
+            @Override
+            public void run() {
+                // Notifying the listener that billing client is ready
+//                mBillingUpdatesListener.onBillingClientSetupFinished();
+//                // IAB is fully set up. Now, let's get an inventory of stuff we own.
+//                Log.d(TAG, "Setup successful. Querying inventory.");
+//                queryPurchases();
+            }
+        });
     }
 
     @Override
@@ -107,6 +119,28 @@ public final class PlayStore extends StoreBase {
     @Override
     public void purchase(Activity activity, Product p) {
 
+    }
+
+    private void startServiceConnection(final Runnable executeOnSuccess) {
+        billingClient.startConnection(new BillingClientStateListener() {
+            @Override
+            public void onBillingSetupFinished(@BillingClient.BillingResponse int billingResponseCode) {
+                LOG.info("Setup finished. Response code: " + billingResponseCode);
+
+//                if (billingResponseCode == BillingClient.BillingResponse.OK) {
+//                    mIsServiceConnected = true;
+//                    if (executeOnSuccess != null) {
+//                        executeOnSuccess.run();
+//                    }
+//                }
+//                mBillingClientResponseCode = billingResponseCode;
+            }
+
+            @Override
+            public void onBillingServiceDisconnected() {
+//                mIsServiceConnected = false;
+            }
+        });
     }
 
     private void handlePurchase(Purchase purchase) {
