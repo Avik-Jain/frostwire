@@ -68,7 +68,7 @@ public final class PlayStore extends StoreBase {
 
     private String lastSkuPurchased;
 
-    public PlayStore() {
+    private PlayStore() {
         inventoryListener = (result, inventory) -> {
             if (result.isFailure()) {
                 LOG.error("Failed to query inventory: " + result);

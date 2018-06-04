@@ -29,10 +29,13 @@ import java.util.Map;
  * <p>
  * If an abstract class is meant to be extended, then it's named *Abstract.
  *
+ * NOTE: this class is public but only to be accesed inside the offers package
+ * or sub packages
+ *
  * @author gubatron
  * @author aldenml
  */
-abstract class StoreBase implements Store {
+public abstract class StoreBase implements Store {
 
     protected Map<String, Product> products;
 
