@@ -67,18 +67,9 @@ public class PlayStore implements PurchasesUpdatedListener {
 
     private int mBillingClientResponseCode = BILLING_MANAGER_NOT_INITIALIZED;
 
-    /* BASE_64_ENCODED_PUBLIC_KEY should be YOUR APPLICATION'S PUBLIC KEY
-     * (that you got from the Google Play developer console). This is not your
-     * developer public key, it's the *app-specific* public key.
-     *
-     * Instead of just storing the entire literal string here embedded in the
-     * program,  construct the key at runtime from pieces or
-     * use bit manipulation (for example, XOR with some other string) to hide
-     * the actual key.  The key itself is not secret information, but we don't
-     * want to make it easy for an attacker to replace the public key with one
-     * of their own and then fake messages from the server.
-     */
-    private static final String BASE_64_ENCODED_PUBLIC_KEY = "CONSTRUCT_YOUR_KEY_AND_PLACE_IT_HERE";
+    // Taken from: Google Play Developer Console -> Services & APIs
+    // Base64-encoded RSA public key to include in your binary.
+    private static final String BASE_64_ENCODED_PUBLIC_KEY = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAn4zB2rCYz3oXs33iFIHagzwpca0AEvRYHyr2xOW9gGwBokU51LdIjzq5NOzj3++aa9vIvj/K9eFHCPxkXa5g2qjm1+lc+fJwIEA/hAnA4ZIee3KrD52kyTqfZfhEYGklzvarbo3WN2gcUzwvvsVP9e1UZqtoYgFDThttKaFUboqqt1424lp7C2da89WTgHNpUyykIwQ1zYR34YOQ23SFPesSx8Fmz/Nz2rAHBNuFy13OE2LWPK+kLfm8P+tUAOcDSlq0NuT/FkuGpvziPaOS5BVpvfiAjjnUNLfH7dEO5wh7RPAskcNhQH1ykp6RauZFryMJbbHUe6ydGRHzpRkRpwIDAQAB";
 
     /**
      * Listener to the updates that happen when purchases list was updated or consumption of the
@@ -375,13 +366,6 @@ public class PlayStore implements PurchasesUpdatedListener {
      * </p>
      */
     private boolean verifyValidSignature(String signedData, String signature) {
-        // Some sanity checks to see if the developer (that's you!) really followed the
-        // instructions to run this sample (don't put these checks on your app!)
-        if (BASE_64_ENCODED_PUBLIC_KEY.contains("CONSTRUCT_YOUR")) {
-            throw new RuntimeException("Please update your app's public key at: "
-                    + "BASE_64_ENCODED_PUBLIC_KEY");
-        }
-
         try {
             return Security.verifyPurchase(BASE_64_ENCODED_PUBLIC_KEY, signedData, signature);
         } catch (IOException e) {
